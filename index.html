@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827"><meta name="description" content="جرين آيز للعدسات اللاصقة الطبية">
+  <title>جرين آيز للعدسات اللاصقة الطبية</title><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><a class="brand" href="#">GREEN <span>EYES</span></a><button id="installBtn" class="small hidden">تثبيت التطبيق</button><a class="wa" id="headerWa" target="_blank">اطلب عبر واتساب</a></header>
+<section class="hero"><div><p class="eyebrow">رؤيتك.. بأناقة</p><h1>جرين آيز للعدسات اللاصقة الطبية</h1><p>اختاري العدسات المناسبة لكِ، وشوفي التفاصيل واطلبي بسهولة عبر واتساب.</p><a class="primary" href="#products">تسوقي الآن</a></div><div class="hero-orb">LENS<br>BEAUTY</div></section>
+<main><div class="section-head"><div><p class="eyebrow">اختيارات مميزة</p><h2 id="products">منتجاتنا</h2></div><input id="search" placeholder="ابحثي عن عدسة..."></div><div id="productGrid" class="grid"></div></main>
+<footer><strong>جرين آيز للعدسات اللاصقة الطبية</strong><p>للاستفسار والطلب تواصلي معنا عبر واتساب.</p><a id="footerWa" target="_blank">تواصل معنا</a><p class="muted">© متجر العدسات</p></footer>
+<button class="admin-fab" id="adminOpen">إدارة المتجر</button>
+<dialog id="adminDialog"><div class="admin-head"><h2>إدارة المنتجات</h2><button id="adminClose" class="x">×</button></div>
+<p class="notice">نسخة تجريبية: المنتجات تُحفظ على هذا المتصفح فقط. قبل النشر سنربط لوحة التحكم بقاعدة بيانات آمنة لتظهر التعديلات لكل الزوار.</p>
+<form id="productForm" class="form"><input id="pName" placeholder="اسم المنتج" required><input id="pPrice" type="number" min="0" placeholder="السعر بالجنيه" required><input id="pPower" placeholder="القوة (مثال: من -0.50 إلى -8.00)"><input id="pDesc" placeholder="وصف مختصر"><input id="pImage" type="file" accept="image/*"><button class="primary" type="submit">إضافة المنتج</button></form>
+<div id="adminList"></div><hr><label>رقم واتساب (بصيغة دولية بدون +)</label><input id="waNumber" placeholder="201551730902"><button id="saveSettings" class="primary">حفظ الرقم</button><hr><label>Meta Pixel ID</label><input id="pixelId" placeholder="أدخل رقم البيكسل"><button id="savePixel" class="primary">حفظ البيكسل</button>
+</dialog><script src="app.js"></script></body></html>

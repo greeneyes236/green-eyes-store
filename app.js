@@ -1,0 +1,17 @@
+const DEFAULT_WA="201551730902";
+const seed=[{id:1,name:"عدسات فريشكون شفافة",price:450,power:"قوى متعددة",desc:"عدسات شفافة للاستخدام اليومي حسب إرشادات المنتج",image:""}];
+let products=JSON.parse(localStorage.getItem("lens_products")||"null")||seed;
+let wa=localStorage.getItem("lens_wa")||DEFAULT_WA;
+const $=id=>document.getElementById(id);
+function waLink(p){return `https://wa.me/${wa}?text=${encodeURIComponent("مرحباً، أريد الاستفسار عن "+p.name+(p.power?" - القوة: "+p.power:""))}`}
+function render(){const q=$("search").value.trim().toLowerCase();const list=products.filter(p=>(p.name+" "+p.desc+" "+p.power).toLowerCase().includes(q));$("productGrid").innerHTML=list.length?list.map(p=>`<article class="card"><img src="${p.image||'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect width=%22100%25%22 height=%22100%25%22 fill=%22%23f4eee3%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 fill=%22%238d7656%22 font-size=%2230%22%3ELENS%3C/text%3E%3C/svg%3E'}" alt="${p.name}"><div class="card-body"><h3>${escapeHtml(p.name)}</h3><p class="muted">${escapeHtml(p.desc||p.power||"")}</p><div class="price">${Number(p.price).toLocaleString("ar-EG")} جنيه</div><a class="primary" target="_blank" href="${waLink(p)}">اطلبي عبر واتساب</a></div></article>`).join(""):'<div class="empty">لا توجد منتجات مطابقة حالياً.</div>';$("headerWa").href=$("footerWa").href=`https://wa.me/${wa}`}
+function escapeHtml(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function adminRender(){$("adminList").innerHTML=products.map(p=>`<div class="admin-row"><span>${escapeHtml(p.name)} — ${p.price} ج</span><button data-del="${p.id}">حذف</button></div>`).join("")}
+$("search").addEventListener("input",render);$("adminOpen").onclick=()=>{$("adminDialog").showModal();adminRender();$("waNumber").value=wa};$("adminClose").onclick=()=>$("adminDialog").close();
+$("productForm").onsubmit=async e=>{e.preventDefault();let image="";const f=$("pImage").files[0];if(f){image=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)})}products.unshift({id:Date.now(),name:$("pName").value,price:$("pPrice").value,power:$("pPower").value,desc:$("pDesc").value,image});localStorage.setItem("lens_products",JSON.stringify(products));e.target.reset();render();adminRender()};
+$("adminList").onclick=e=>{const id=Number(e.target.dataset.del);if(id){products=products.filter(p=>p.id!==id);localStorage.setItem("lens_products",JSON.stringify(products));render();adminRender()}};
+$("saveSettings").onclick=()=>{wa=$("waNumber").value.replace(/\D/g,"")||DEFAULT_WA;localStorage.setItem("lens_wa",wa);render();alert("تم حفظ الرقم على هذا المتصفح")};
+$("savePixel").onclick=()=>{const id=$("pixelId").value.trim();if(!/^\d+$/.test(id)){alert("أدخل رقم Pixel صحيحاً");return}localStorage.setItem("lens_pixel",id);alert("تم حفظ الرقم محلياً. يلزم تفعيله في نسخة النشر وربطه بالموافقة على ملفات التتبع.")};
+let deferredPrompt;$("installBtn").classList.add("hidden");window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;$("installBtn").classList.remove("hidden")});$("installBtn").onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null}};
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));
+render();

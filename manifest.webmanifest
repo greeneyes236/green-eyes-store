@@ -1,0 +1,11 @@
+{
+  "name": "متجر العدسات",
+  "short_name": "العدسات",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#171b2c",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": []
+}
